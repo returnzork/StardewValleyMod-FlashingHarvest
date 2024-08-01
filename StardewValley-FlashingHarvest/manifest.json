@@ -1,0 +1,10 @@
+{
+  "Name": "Stardew Valley Flashing Harvest",
+  "Author": "returnzork",
+  "Version": "0.0.1",
+  "Description": "Make crops that are ready to harvest flash, so that they are easier to locate",
+  "UniqueID": "returnzork.StardewValleyMod.FlashingHarvest",
+  "EntryDll": "StardewValley-FlashingHarvest.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": []
+}
