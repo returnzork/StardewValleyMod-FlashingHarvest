@@ -12,7 +12,6 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
     internal class ModEntry : StardewModdingAPI.Mod
     {
         bool isFlashingEnabled = false;
-        bool isActivelyFlashing = false;
 
         public override void Entry(IModHelper helper)
         {
@@ -39,7 +38,8 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
         {
             if (!isFlashingEnabled)
                 return;
-            foreach (var feature in Game1.getFarm().terrainFeatures.Values)
+            Farmer player = Game1.player;
+            foreach (var feature in player.currentLocation.terrainFeatures.Values)
             {
                 if (feature is HoeDirt hd && hd.crop != null && hd.readyForHarvest())
                 {
