@@ -8,7 +8,15 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
 {
     internal class ModEntry : StardewModdingAPI.Mod
     {
+        /// <summary>
+        /// Should unharvested crops be shown as a box
+        /// </summary>
         bool isFlashingEnabled = false;
+
+        /// <summary>
+        /// Should unwatered tiles be displayed when unharvested crops are displayed
+        /// </summary>
+        bool showUnwateredTiles { get => isFlashingEnabled; }
 
         public override void Entry(IModHelper helper)
         {
@@ -33,7 +41,7 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
         /// </summary>
         /// <param name="xTile">X Tile in world position we should draw over</param>
         /// <param name="yTile">Y Tile in world position that we should draw over</param>
-        private void DrawTileOverlay(int xTile, int yTile) => Game1.DrawBox((xTile * Game1.tileSize) - Game1.viewport.X, (yTile * Game1.tileSize) - Game1.viewport.Y, Game1.tileSize, Game1.tileSize, Color.Red);
+        private void DrawTileOverlay(int xTile, int yTile, Color drawColor) => Game1.DrawBox((xTile * Game1.tileSize) - Game1.viewport.X, (yTile * Game1.tileSize) - Game1.viewport.Y, Game1.tileSize, Game1.tileSize, drawColor);
 
         private void Display_RenderedWorld(object? sender, RenderedWorldEventArgs e)
         {
@@ -46,9 +54,12 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
             foreach (var feature in player.currentLocation.terrainFeatures.Values)
             {
                 //check if the crop is ready for harvest
-                if (feature is HoeDirt hd && hd.crop != null && hd.readyForHarvest())
+                if (feature is HoeDirt hd && hd.crop != null)
                 {
-                    DrawTileOverlay((int)hd.crop.tilePosition.X, (int)hd.crop.tilePosition.Y);
+                     if(hd.readyForHarvest())
+                        DrawTileOverlay((int)hd.crop.tilePosition.X, (int)hd.crop.tilePosition.Y, Color.Red);
+                     else if(hd.needsWatering())
+                        DrawTileOverlay((int)hd.crop.tilePosition.X, (int)hd.crop.tilePosition.Y, Color.Blue);
                 }
             }
 
@@ -59,7 +70,7 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
                 {
                     if(x.IsSpawnedObject)
                     {
-                        DrawTileOverlay((int)x.TileLocation.X, (int)x.TileLocation.Y);
+                        DrawTileOverlay((int)x.TileLocation.X, (int)x.TileLocation.Y, Color.Red);
                     }
                 }
             }
