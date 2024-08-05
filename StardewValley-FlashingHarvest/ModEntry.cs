@@ -58,7 +58,7 @@ namespace returnzork.StardewValleyMod.FlashingHarvest
                 {
                      if(hd.readyForHarvest())
                         DrawTileOverlay((int)hd.crop.tilePosition.X, (int)hd.crop.tilePosition.Y, Color.Red);
-                     else if(hd.needsWatering())
+                     else if(!hd.isWatered())
                         DrawTileOverlay((int)hd.crop.tilePosition.X, (int)hd.crop.tilePosition.Y, Color.Blue);
                 }
             }
